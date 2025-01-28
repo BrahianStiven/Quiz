@@ -2,14 +2,19 @@ import csv
 import os
 import random
 
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_file
+
+load_dotenv()
 
 app = Flask(__name__)
 
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+def check_api_key():
+    api_key = request.headers.get("X-API-Key")
+    print(api_key)
+    if api_key != os.getenv("API_KEY"):
+        return jsonify({"error": "Unauthorized"}), 401
 
 
 def generate_random_labels(n):
@@ -27,6 +32,11 @@ def generate_random_labels(n):
 
 @app.route("/generate_labels/", methods=["POST"])
 def generate_labels():
+
+    auth_response = check_api_key()
+    if auth_response:
+        return auth_response
+
     data = request.get_json()
     n = data.get("count", 10)
 
@@ -42,6 +52,10 @@ def generate_labels():
 
 @app.route("/record_labels", methods=["GET"])
 def record_labels():
+
+    auth_response = check_api_key()
+    if auth_response:
+        return auth_response
 
     csv_file = "labels.csv"
 

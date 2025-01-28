@@ -28,7 +28,7 @@ class LabelsController extends Controller
     public function recordLabels()
     {
         $url = $this->apiUrl.'/record_labels';
-        $response = Http::get($url);
+        $response = Http::withHeaders(['X-API-Key' => $this->apiKey])->get($url);
         $filePath = 'temp/labels.csv';
         Storage::put($filePath, $response->body());
 

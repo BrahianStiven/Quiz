@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LabelsController;
 use App\Http\Controllers\GenresController;
+use App\Http\Controllers\BandsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,5 @@ Route::post('/generate_labels', [LabelsController::class, 'generateLabels']);
 Route::get('/record_labels', [LabelsController::class, 'recordLabels']);
 Route::get('/genres', [GenresController::class, 'getGenres']);
 Route::get('/genres/{id}', [GenresController::class, 'getGenre']);
+Route::get('/bands', [BandsController::class, 'getBands']);
+Route::get('/bands/{id}', [BandsController::class, 'getBand']);
